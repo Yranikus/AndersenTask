@@ -30,7 +30,7 @@ public class UIController {
             e.printStackTrace();
         }
 
-        return "redirect: visits";
+        return "redirect:visits";
     }
 
 
