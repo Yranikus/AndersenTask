@@ -1,0 +1,16 @@
+#upload_btn{
+    padding: 10px;
+    background-color: dodgerblue;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: white;
+    width: fit-content;
+}
+
+
+#upload_text{
+    font-family: sans-serif;
+    margin-left: 10px;
+    font-size: 15px;
+    color:  #aaa;
+}

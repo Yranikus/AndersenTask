@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>Input</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+    <div class="example-1">
+        <form method="post" action="/uploadecxel" enctype="multipart/form-data">
+            <input type="file" id="upload_file" hidden="hidden" name="file">
+            <div id="upload_btn">Загрузить файл</div>
+            <span id="upload_text">Файл не выбран</span>
+            <button type="submit">отправить</button>
+        </form>
+    </div>
+    <script src="script/main.js"></script>
+</body>
+</html>
