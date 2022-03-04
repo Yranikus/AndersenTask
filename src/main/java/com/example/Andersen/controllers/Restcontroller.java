@@ -31,14 +31,6 @@ public class Restcontroller {
     @Autowired
     private StudentDao studentDao;
 
-    @PostMapping("/uploadecxel")
-    public void uplodFile(@RequestParam("file") MultipartFile file){
-        try {
-            studentService.saveListOfUsers(file.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @GetMapping("/getpresentstudents")
     public List<Student> getPresentStudents(@RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date){
