@@ -1,4 +1,8 @@
+DROP TABLE IF EXISTS user_dates;
+DROP TABLE IF EXISTS student_team;
 DROP TABLE IF EXISTS teams;
+DROP TABLE IF EXISTS dates;
+DROP TABLE IF EXISTS students;
 create table teams
 (
     id     serial not null
@@ -12,7 +16,6 @@ alter table teams
 
 
 
-DROP TABLE IF EXISTS students;
 create table students
 (
     id           serial not null
@@ -27,7 +30,6 @@ alter table students
     owner to postgres;
 
 
-DROP TABLE IF EXISTS student_team;
 create table student_team
 (
     student_id integer
@@ -44,7 +46,6 @@ alter table student_team
 create unique index bebebe2
     on student_team (student_id, team_id);
 
-DROP TABLE IF EXISTS dates;
 create table dates
 (
     id   serial not null
@@ -60,7 +61,6 @@ create unique index dates_id_uindex
     on dates (id);
 
 
-DROP TABLE IF EXISTS user_dates;
 create table user_dates
 (
     user_id integer
