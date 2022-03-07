@@ -3,8 +3,8 @@ body{
     font-size: 16px;
 }
 table {
-    width: 100%;
     table-layout: fixed;
+    width: 100%;
     border-collapse: collapse;
     border: 3px solid purple;
 }
@@ -69,41 +69,4 @@ th, td{
     width: fit-content;
     background: darkred;
     color: wheat;
-}
-
-.randomizer{
-    text-align: center;
-    margin: 23px;
-    display: flex;
-    width: 200px;
-    border: 3px solid chartreuse;
-    border-radius: 5px;
-    height: 300px;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: space-around;
-}
-
-.kek {
-    margin: 10px;
-    text-align: center;
-    padding: 5px;
-    width: 55px;
-    border-radius: 4px;
-}
-
-.asker{
-    background-color: yellow;
-}
-
-.answerer{
-    background-color: chartreuse;
-}
-
-
-.knopka{
-    padding: 5px;
-    height: 30px;
-    border-radius: 4px;
-    background-color: cornflowerblue;
 }

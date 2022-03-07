@@ -1,7 +1,7 @@
 
-const getURL = "http://localhost:8081/getlistofstudents",           //URL для первого get
-    postURL = "http://localhost:8081/updateVisits",          //URL для POST
-    pastURL = "http://localhost:8081/getpresentstudents";         //URL для контроллера с датой
+const getURL = "http://localhost:8082/getlistofstudents",           //URL для первого get
+    postURL = "http://localhost:8082/updateVisits",          //URL для POST
+    pastURL = "http://localhost:8082/getpresentstudents";         //URL для контроллера с датой
 
 
 const tableBody = document.querySelector('.bodyContainer'),
@@ -33,12 +33,10 @@ const getTableContent = (getURL, table, body = null) => {
         })
         .then(res => {
             res.forEach(item => {
-                if(item.check === 1){
-                    students.push(+item.id)
-                }
+                counter++;
                 table.insertAdjacentHTML("beforeend",
                     `<tr class="studentRow">
-                        <th class="row">${item.id}</th>
+                        <td class="row">${item.id}</td>
                         <td>${item.name}</td>
                         <td class="minWidth">
                             <button class="BBB ${item.check === 1 ? 'greenClass' : 'redClass'}" id="${item.id}">

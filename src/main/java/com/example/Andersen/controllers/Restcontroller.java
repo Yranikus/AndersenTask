@@ -1,11 +1,11 @@
 package com.example.Andersen.controllers;
 
 
+import com.example.Andersen.dao.MarksDao;
 import com.example.Andersen.dao.StudentDao;
+import com.example.Andersen.dao.TeamsDao;
 import com.example.Andersen.dao.VisitsDao;
-import com.example.Andersen.entity.DateEntity;
-import com.example.Andersen.entity.PresentStudents;
-import com.example.Andersen.entity.Student;
+import com.example.Andersen.entity.*;
 import com.example.Andersen.parser.ExcelParser;
 import com.example.Andersen.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,10 @@ public class Restcontroller {
     private StudentService studentService;
     @Autowired
     private VisitsDao visitsDao;
-
+    @Autowired
+    private MarksDao marksDaoDao;
+    @Autowired
+    private TeamsDao teamsDao;
     @Autowired
     private StudentDao studentDao;
 
@@ -64,5 +67,16 @@ public class Restcontroller {
     }
 
 
+    @PostMapping("/updateMarks")
+    public void updateMarks(@RequestBody PresentStudentsWithMarks s){
+        DateEntity dateEntity = visitsDao.dateExist(s.getDate());
+        marksDaoDao.createNewDateInJournal(dateEntity.getDate(),s.getStudentsWithMarks());
+    }
+
+
+    @GetMapping("/teams")
+    public List<Teams> getTeams(@RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date){
+        return teamsDao.getTeams(date);
+    }
 
 }

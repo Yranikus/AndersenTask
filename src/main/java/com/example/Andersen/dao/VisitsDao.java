@@ -35,7 +35,8 @@ public class VisitsDao {
     }
 
     public List<Student> getPresentStudents(Date date){
-       return jdbcTemplate.query("SELECT students.id, name, primaryscore, score, user_dates.date_id FROM students LEFT JOIN user_dates ON id = user_dates.user_id LEFT JOIN dates d on d.id = user_dates.date_id", new PresentStudentRowMapper());
+       return jdbcTemplate.query("SELECT students.id, name, primaryscore, score, user_dates.date_id FROM students LEFT JOIN user_dates ON id = user_dates.user_id LEFT JOIN dates d on d.id = user_dates.date_id",
+               new PresentStudentRowMapper());
     }
 
     public void newDateAndCheck(Date date, int[] check){

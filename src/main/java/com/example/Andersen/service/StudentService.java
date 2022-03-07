@@ -34,8 +34,6 @@ public class StudentService {
         else {
             teams = students.size() / 4 + 1;
         }
-        System.out.println(students.toString());
-        System.out.println(teams);
         int counter = 0;
         for (int i = 0; i < teams; i++) {
             teamsDao.createTeam(students.get(counter));
@@ -47,6 +45,7 @@ public class StudentService {
             for (; teamsNumber >= j; j++) {
                 teamsDao.addToTeam(students.get(counter).getId(), j);
                 counter++;
+                if (counter == students.size()) break;
             }
         }
     }

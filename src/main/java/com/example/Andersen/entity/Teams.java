@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class Teams {
 
     private int numberOfTeam;
-    private ArrayList<Student> students;
+    private ArrayList students;
     private String leader;
 
     public Teams() {
     }
 
-    public Teams(int numberOfTeam, ArrayList<Student> students, String leader) {
+    public Teams(int numberOfTeam, ArrayList students, String leader) {
         this.leader = leader;
         this.numberOfTeam = numberOfTeam;
         this.students = students;

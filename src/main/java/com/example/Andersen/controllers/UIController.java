@@ -39,4 +39,10 @@ public class UIController {
         return "schedule";
     }
 
+    @GetMapping("/quiz")
+    public String quiz(){
+        return "quiz";
+    }
+
+
 }

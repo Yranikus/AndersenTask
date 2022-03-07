@@ -15,7 +15,6 @@ public class PresentStudents {
     }
 
     public PresentStudents(String dateString, int[] presentStudents) {
-        System.out.println(dateString);
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             this.date = format.parse(dateString);

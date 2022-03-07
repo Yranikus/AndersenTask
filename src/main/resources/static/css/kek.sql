@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS marksforlessons;
 DROP TABLE IF EXISTS user_dates;
 DROP TABLE IF EXISTS student_team;
 DROP TABLE IF EXISTS teams;
@@ -76,5 +77,23 @@ alter table user_dates
 
 create unique index bebebe
     on user_dates (user_id, date_id);
+
+create table marksforlessons
+(
+    answer     integer,
+    question   integer,
+    student_id integer
+        constraint marksforlessons_student_id_fkey
+            references students,
+    date_id    integer
+        constraint marksforlessons_date_id_fkey
+            references dates
+);
+
+alter table marksforlessons
+    owner to postgres;
+
+create unique index kek
+    on marksforlessons (student_id, date_id);
 
 
