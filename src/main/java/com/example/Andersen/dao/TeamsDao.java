@@ -4,13 +4,14 @@ import com.example.Andersen.entity.Student;
 import com.example.Andersen.entity.StudentWithMarksRowMapper;
 import com.example.Andersen.entity.Teams;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Component
 public class TeamsDao {
@@ -18,10 +19,12 @@ public class TeamsDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private StudentDao studentDao;
 
-    public void createTeam(Student leader){
-        jdbcTemplate.update("INSERT INTO teams (leader) VALUES (?)", leader.getName());
-        jdbcTemplate.update("INSERT INTO student_team (STUDENT_ID, TEAM_ID) VALUES (?, (SELECT MAX(id) FROM teams))", leader.getId());
+
+    public void createTeam(String leader){
+        jdbcTemplate.update("INSERT INTO teams (leader) VALUES (?)", leader);
     }
 
     public String getLeader(int id){
@@ -50,7 +53,7 @@ public class TeamsDao {
                     "ON user_dates.user_id = students.id\n" +
                     "LEFT JOIN dates\n" +
                     "ON user_dates.date_id = dates.id\n" +
-                    "WHERE teams.id = ? AND date = ?", new StudentWithMarksRowMapper(), date, date, firstNumber, date), getLeader(firstNumber)
+                    "WHERE teams.id = ? AND date = ? AND status = 1", new StudentWithMarksRowMapper(), date, date, firstNumber, date), getLeader(firstNumber)
                     );
             teams.add(team);
             i++;
@@ -58,8 +61,36 @@ public class TeamsDao {
         return teams;
     }
 
+    public void setRepo(String repo, int id){
+        jdbcTemplate.update("UPDATE teams SET repo = ? WHERE id = ?", repo, id);
+    }
+
+
     public void addToTeam(int student_id, int team_id){
         jdbcTemplate.update("INSERT INTO student_team (STUDENT_ID, TEAM_ID) VALUES (?, ?)", student_id, team_id);
+    }
+
+    public void saveTeams(ArrayList<Teams> teams){
+        final int[] pk = {1};
+        for (Teams t : teams){
+            createTeam(t.getLeader());
+            studentDao.saveList(t.getStudents());
+            jdbcTemplate.batchUpdate("INSERT INTO student_team(student_id, team_id) VALUES (?,?)", new BatchPreparedStatementSetter() {
+
+                @Override
+                public void setValues(PreparedStatement ps, int i) throws SQLException {
+                    ps.setInt(1,pk[0]);
+                    ps.setInt(2,t.getNumberOfTeam());
+                    pk[0]++;
+                }
+
+                @Override
+                public int getBatchSize() {
+                    return t.getStudents().size();
+                }
+            });
+
+        }
     }
 
     public Integer getNumbersOfTeams(){

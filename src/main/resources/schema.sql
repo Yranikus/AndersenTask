@@ -9,7 +9,8 @@ create table teams
     id     serial not null
         constraint teams_pk
             primary key,
-    leader varchar
+    leader varchar,
+    repo varchar unique
 );
 
 alter table teams
@@ -24,7 +25,8 @@ create table students
             primary key,
     name         varchar,
     primaryscore integer,
-    score        integer
+    score        integer,
+    status       integer
 );
 
 alter table students
@@ -64,6 +66,7 @@ create unique index dates_id_uindex
 
 create table user_dates
 (
+
     user_id integer
         constraint user_dates_user_id_fkey
             references students,

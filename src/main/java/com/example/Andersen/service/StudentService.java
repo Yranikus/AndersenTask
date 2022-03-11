@@ -22,8 +22,13 @@ public class StudentService {
     private ExcelParser excelParser;
 
     public void saveListOfUsers(InputStream inputStream) throws IOException {
-        studentDao.saveList(excelParser.parse(inputStream));
+        studentDao.saveList(excelParser.parseListOfUsers(inputStream));
     }
+
+    public void saveListOfTeams(InputStream inputStream) throws IOException {
+        teamsDao.saveTeams(excelParser.parseListOfTeams(inputStream));
+    };
+
 
     public void createTeams(){
         List<Student> students = studentDao.getAllDesc();
@@ -36,7 +41,7 @@ public class StudentService {
         }
         int counter = 0;
         for (int i = 0; i < teams; i++) {
-            teamsDao.createTeam(students.get(counter));
+            teamsDao.createTeam(students.get(counter).getName());
             counter++;
         }
         for (; counter < students.size();) {

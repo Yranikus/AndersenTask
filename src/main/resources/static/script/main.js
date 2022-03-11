@@ -21,4 +21,23 @@
         }
     });
 
-    
+    const uploadFile2 = document.getElementById("upload_file2");
+    const uploadBtn2 = document.getElementById("upload_btn2");
+    const uploadText2 = document.getElementById("upload_text2");
+
+    uploadBtn2.addEventListener("click", function () {
+        uploadFile2.click();
+    });
+
+    uploadFile2.addEventListener("change", function() {
+
+        console.log(uploadFile2.value)
+        console.log(uploadText2.value)
+        console.log(uploadFile2.value)
+
+        if(uploadFile2.value) {
+            uploadText2.innerHTML = uploadFile2.value;
+        } else {
+            uploadText2.innerHTML = "Файл не загружен";
+        }
+    });

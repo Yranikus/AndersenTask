@@ -1,7 +1,7 @@
 
-const getURL = "http://localhost:8082/getlistofstudents",           //URL для первого get
-    postURL = "http://localhost:8082/updateVisits",          //URL для POST
-    pastURL = "http://localhost:8082/getpresentstudents";         //URL для контроллера с датой
+const getURL = "http://localhost:8083/getlistofstudents",           //URL для первого get
+    postURL = "http://localhost:8083/updateVisits",          //URL для POST
+    pastURL = "http://localhost:8083/getpresentstudents";         //URL для контроллера с датой
 
 
 const tableBody = document.querySelector('.bodyContainer'),
@@ -108,7 +108,7 @@ const postData = async (url, data) => {
         body: data
     });
 
-    return await result.json()
+    return result;
 };
 
 
@@ -133,8 +133,8 @@ sendBtn.addEventListener('click', async () => {
             .then(data => {
                 console.log(data);
                 alert("Данные ушли");
-                // location.reload();
             })
+        location.replace("quiz");
     }
 
 })

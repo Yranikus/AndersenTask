@@ -14,15 +14,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/")
 public class Restcontroller {
 
+
+
+    @Autowired
+    private ExcelParser excelParser;
     @Autowired
     private StudentService studentService;
     @Autowired
@@ -50,10 +53,6 @@ public class Restcontroller {
     }
 
 
-    @GetMapping("/createTeams")
-    public void createTeams(){
-        studentService.createTeams();
-    }
 
     @PostMapping("/updateVisits")
     public void presentDate(@RequestBody PresentStudents s){

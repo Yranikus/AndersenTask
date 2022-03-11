@@ -20,22 +20,29 @@ public class StudentDao {
 
 
     public List<Student> getAllDesc(){
-        return jdbcTemplate.query("SELECT id, name, primaryscore, score FROM students ORDER BY 3 DESC", new BeanPropertyRowMapper<>(Student.class));
+        return jdbcTemplate.query("SELECT id, name, primaryscore, score FROM students WHERE status = 1 ORDER BY 3 DESC", new BeanPropertyRowMapper<>(Student.class));
     }
 
     public List<Student> getAll(){
-        return jdbcTemplate.query("SELECT id, name, primaryscore, score FROM students", new BeanPropertyRowMapper<>(Student.class));
+        return jdbcTemplate.query("SELECT id, name, primaryscore, score FROM students WHERE status = 1", new BeanPropertyRowMapper<>(Student.class));
     }
+
+    public void saveStudent(Student student){
+        jdbcTemplate.update("INSERT INTO students(name, primaryscore, score, status) VALUES (?,?,?, ?)", student.getName(),student.getPrimaryScore(),
+                student.getScore(), 1);
+    }
+
 
     public void saveList(ArrayList<Student> students) {
 
-        jdbcTemplate.batchUpdate("INSERT INTO students(name,primaryscore,score) VALUES (?,?,?)", new BatchPreparedStatementSetter() {
+        jdbcTemplate.batchUpdate("INSERT INTO students(name,primaryscore,score, status) VALUES (?,?,?,?)", new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 Student student = students.get(i);
                 ps.setString(1, student.getName());
                 ps.setInt(2,student.getPrimaryScore());
                 ps.setInt(3, student.getScore());
+                ps.setInt(4, 1);
             }
 
             @Override

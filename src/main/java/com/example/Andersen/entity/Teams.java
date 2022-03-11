@@ -11,6 +11,12 @@ public class Teams {
     public Teams() {
     }
 
+    public Teams(int index) {
+        this.numberOfTeam = index;
+        this.students = new ArrayList<Student>();
+    }
+
+
     public Teams(int numberOfTeam, ArrayList students, String leader) {
         this.leader = leader;
         this.numberOfTeam = numberOfTeam;
@@ -19,6 +25,14 @@ public class Teams {
 
     public void addStudent(Student student){
         this.students.add(student);
+    }
+
+    public String getLeader() {
+        return leader;
+    }
+
+    public void setLeader(String leader) {
+        this.leader = leader;
     }
 
     public int getNumberOfTeam() {
@@ -35,5 +49,14 @@ public class Teams {
 
     public void setStudents(ArrayList<Student> students) {
         this.students = students;
+    }
+
+    @Override
+    public String toString() {
+        return "Teams{" +
+                "numberOfTeam=" + numberOfTeam +
+                ", students=" + students +
+                ", leader='" + leader + '\'' +
+                '}';
     }
 }

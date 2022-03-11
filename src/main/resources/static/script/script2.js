@@ -1,6 +1,6 @@
 
-const getURL = "http://localhost:8082/teams",           //URL для первого get
-    postURL = "http://localhost:8082/updateMarks"          //URL для POST
+const getURL = "http://localhost:8083/teams",           //URL для первого get
+    postURL = "http://localhost:8083/updateMarks"          //URL для POST
 
 
 const tableBody = document.querySelector('.bodyContainer'),
@@ -218,7 +218,7 @@ const postData = async (url, data) => {
         body: data
     });
 
-    return await result.json()
+    return result;
 };
 
 

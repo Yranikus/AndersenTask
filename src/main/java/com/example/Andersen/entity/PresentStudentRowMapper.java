@@ -18,4 +18,5 @@ public class PresentStudentRowMapper implements RowMapper<Student> {
         student.setPrimaryScore(rs.getInt("primaryscore"));
         return student;
     }
+
 }

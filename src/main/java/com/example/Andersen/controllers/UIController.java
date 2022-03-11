@@ -29,9 +29,25 @@ public class UIController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return "redirect:createTeams";
+    }
 
+    @GetMapping("/createTeams")
+    public String createTeams(){
+        studentService.createTeams();
         return "redirect:visits";
     }
+
+    @PostMapping("/uploadTeams")
+    public String uploadTeams(@RequestParam("file") MultipartFile file){
+        try {
+            studentService.saveListOfTeams(file.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "redirect:visits";
+    }
+
 
 
     @GetMapping("/visits")

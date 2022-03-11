@@ -1,6 +1,8 @@
 package com.example.Andersen.parser;
 
 import com.example.Andersen.entity.Student;
+import com.example.Andersen.entity.Teams;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -15,19 +17,60 @@ import java.util.ArrayList;
 public class ExcelParser {
 
 
-    public ArrayList<Student> parse(InputStream inputStream) throws IOException {
+    public ArrayList<Student> parseListOfUsers(InputStream inputStream) throws IOException {
         ArrayList<Student> students = new ArrayList<>();
         Workbook book =  WorkbookFactory.create(inputStream);
         Sheet sheet = book.getSheetAt(0);
         int rowIndex = 1;
-        while (sheet.getRow(rowIndex + 1) != null){
-            Student student = new Student(sheet.getRow(rowIndex).getCell(0).getStringCellValue(), (int) sheet.getRow(rowIndex).getCell(1).getNumericCellValue(), 0);
+        while (sheet.getRow(rowIndex) != null){
+            Student student = new Student(sheet.getRow(rowIndex).getCell(0).getStringCellValue(),
+                    (int) sheet.getRow(rowIndex).getCell(1).getNumericCellValue(), 0);
             students.add(student);
             rowIndex++;
         }
 
         return students;
     }
+
+    public ArrayList<Teams> parseListOfTeams(InputStream inputStream) throws IOException {
+        ArrayList<Teams> teams = new ArrayList<>();
+        Workbook book =  WorkbookFactory.create(inputStream);
+        Sheet sheet = book.getSheetAt(0);
+        int rowIndex = 0;
+        int cellIndex = 0;
+        int indexOfTeam = 1;
+        while (sheet.getRow(rowIndex).getCell(cellIndex) != null) {
+            teams.add(new Teams(indexOfTeam));
+            indexOfTeam++;
+            cellIndex = cellIndex + 3;
+        }
+
+        System.out.println("dfhjftujyt");
+        cellIndex = 0;
+        rowIndex++;
+        indexOfTeam = 0;
+        while (sheet.getRow(rowIndex) != null){
+                while (sheet.getRow(rowIndex).getCell(cellIndex) != null){
+                    if (sheet.getRow(rowIndex).getCell(cellIndex) != null) {
+                        Student student = new Student(sheet.getRow(rowIndex).getCell(cellIndex).getStringCellValue(),
+                                (int) sheet.getRow(rowIndex).getCell(cellIndex + 1).getNumericCellValue(), 0);
+                        teams.get(indexOfTeam).addStudent(student);
+                        if (sheet.getRow(rowIndex).getCell(cellIndex + 2) != null) {
+                            System.out.println("puk");
+                            teams.get(indexOfTeam).setLeader(student.getName());
+                        }
+                    }
+                    indexOfTeam++;
+                    cellIndex = cellIndex + 3;
+                }
+                indexOfTeam = 0;
+                rowIndex++;
+                cellIndex = 0;
+        }
+
+        return teams;
+    }
+
 
 
 
