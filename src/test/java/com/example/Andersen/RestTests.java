@@ -1,8 +1,7 @@
 package com.example.Andersen;
 
-import com.example.Andersen.dao.StudentDao;
+
 import com.example.Andersen.dao.TeamsDao;
-import com.example.Andersen.dao.VisitsDao;
 import com.example.Andersen.entity.Student;
 import com.example.Andersen.entity.Teams;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,12 +33,9 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class RestTests extends Assert {
 
-    @Autowired
-    private StudentDao studentDao;
+
     @Autowired
     private TeamsDao teamsDao;
-    @Autowired
-    private VisitsDao visitsDao;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
@@ -89,17 +85,6 @@ public class RestTests extends Assert {
             assertEquals(studentsFromController[i].getName(), students.get(i).getName());
         }
     }
-
-//    @Order(2)
-//    @Test
-//    void getTeams() throws JsonProcessingException {
-//        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8081/getteams?date=" + 2022 + "-"
-//                + today.getMonth() + "-" + today.getDay(), HttpMethod.GET,
-//                new HttpEntity<String>(new HttpHeaders()),String.class);
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        System.out.println(responseEntity.getBody());
-//        objectMapper.readValue(responseEntity.getBody(), Teams[].class);
-//    }
 
 
 

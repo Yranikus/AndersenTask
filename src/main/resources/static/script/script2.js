@@ -70,7 +70,7 @@ const getTableContent = (getURL) => {
                     `<tr class="studentRow">
                         <td class="row">${seconditem.id}</td>
                         <th scope="col" class="row">${counter}</th>
-                        <td>${seconditem.name}</td>
+                        <td style="background-color: ${seconditem.name === item.leader ? 'gold' : 'none'} ">${seconditem.name}</td>
                         <td>${seconditem.primaryScore}</th>
                         <td>${seconditem.score}</th>
                         <td class="minWidth">                        
@@ -87,7 +87,7 @@ const getTableContent = (getURL) => {
             students.forEach(item => {
                 size = size + item.length;
             })
-            while (arrayList[askTeamNumber].length === 1 && size !== arrayList[askTeamNumber].length) {
+             while (arrayList[askTeamNumber].length === 1 && size !== arrayList[askTeamNumber].length) {
                 askTeamNumber = random(arrayList.length);
             }
             ansTeamNumber = random(arrayList.length);
@@ -202,7 +202,7 @@ knopka.addEventListener('click', (e) => {
                 arrayList[askTeamNumber].splice(0, 1)
             }
         }
-        if (arrayList[askTeamNumber].size() > 0) {
+        if (arrayList[askTeamNumber].length > 0) {
             askerDiv.innerHTML = arrayList[askTeamNumber][0];
             answererDiv.innerHTML = second;
         }

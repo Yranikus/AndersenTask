@@ -94,7 +94,13 @@ class DAOtests extends Assert {
 		visitsDao.newDateAndCheck(new Date(), check);
 		List<Student> presents = visitsDao.getPresentStudents(today);
 		System.out.println(presents);
-		assertEquals(presents.size(), check.length);
+		int size = 0;
+		for (int i = 0; i < presents.size(); i++){
+			if (presents.get(i).getCheck() == 1) {
+				size = size + 1;
+			}
+		}
+		assertEquals(size, check.length);
 		assertEquals(teamsDao.getTeams(today).size(), teams.size());
 	}
 
