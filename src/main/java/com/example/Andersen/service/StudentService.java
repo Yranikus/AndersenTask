@@ -34,8 +34,10 @@ public class StudentService {
     }
 
     public void addStudent(String name, int primaryscore, int teamId){
-        studentDao.saveStudent(new Student(name,primaryscore, 0));
-        teamsDao.addToTeam(studentDao.getLastPK(), teamId);
+        if (teamId <= teamsDao.getNumbersOfTeams()) {
+            studentDao.saveStudent(new Student(name, primaryscore, 0));
+            teamsDao.addToTeam(studentDao.getLastPK(), teamId);
+        }
     }
 
 

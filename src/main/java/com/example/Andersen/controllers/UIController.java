@@ -30,5 +30,10 @@ public class UIController {
         return "quiz";
     }
 
+    @GetMapping("/listofstudents")
+    public String students(){
+        return "listofstudents";
+    }
+
 
 }

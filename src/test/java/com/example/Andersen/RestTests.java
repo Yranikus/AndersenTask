@@ -101,6 +101,8 @@ public class RestTests extends Assert {
 //        objectMapper.readValue(responseEntity.getBody(), Teams[].class);
 //    }
 
+
+
     @AfterAll
     void clean(){
         jdbcTemplate.execute("DROP TABLE IF EXISTS marksforlessons");

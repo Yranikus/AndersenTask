@@ -44,10 +44,6 @@ public class UploadsControllers {
         return "redirect:listofstudents";
     }
 
-    @GetMapping("/listofstudents")
-    public String students(){
-        return "listofstudents";
-    }
 
     @PostMapping("/activateordeactivate")
     public String students(@RequestParam int id, @RequestParam int status){
