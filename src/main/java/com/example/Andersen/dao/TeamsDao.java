@@ -1,7 +1,7 @@
 package com.example.Andersen.dao;
 
 import com.example.Andersen.entity.Student;
-import com.example.Andersen.entity.StudentWithMarksRowMapper;
+import com.example.Andersen.entity.rowmappers.StudentWithMarksRowMapper;
 import com.example.Andersen.entity.Teams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -23,6 +23,7 @@ public class TeamsDao {
     private StudentDao studentDao;
 
 
+
     public void createTeam(String leader){
         jdbcTemplate.update("INSERT INTO teams (leader) VALUES (?)", leader);
     }
@@ -37,7 +38,7 @@ public class TeamsDao {
         int i = 1;
         int numbers = getNumbersOfTeams() + firstNumber;
         for (; firstNumber < numbers; firstNumber++){
-            Teams team = new Teams(i, (ArrayList<Student>) jdbcTemplate.query("SELECT students.id , name , primaryscore, score, date_id, (SELECT answer \n" +
+            ArrayList<Student> students =  (ArrayList<Student>) jdbcTemplate.query("SELECT students.id , name , primaryscore, score, date_id, (SELECT answer \n" +
                     "\t\t\t\t\t\t\t\t\t\t\t\t  \t\tFROM marksforlessons\n" +
                     "\t\t\t\t\t\t\t\t\t\t\t\t \t\t LEFT JOIN dates ON dates.id = date_id\n" +
                     " \t\t\t\t\t\t\t\t\t\t\t\t \t\t WHERE student_id = students.id AND date = ?) answer,\n" +
@@ -53,9 +54,12 @@ public class TeamsDao {
                     "ON user_dates.user_id = students.id\n" +
                     "LEFT JOIN dates\n" +
                     "ON user_dates.date_id = dates.id\n" +
-                    "WHERE teams.id = ? AND date = ? AND status = 1", new StudentWithMarksRowMapper(), date, date, firstNumber, date), getLeader(firstNumber)
-                    );
-            teams.add(team);
+                    "WHERE teams.id = ? AND date = ? AND status = 1", new StudentWithMarksRowMapper(), date, date, firstNumber, date);
+            if (students.size() != 0) {
+                Teams team = new Teams(i, students, getLeader(firstNumber));
+                team.setRepo(getRepo(firstNumber));
+                teams.add(team);
+            }
             i++;
         }
         return teams;
@@ -63,6 +67,10 @@ public class TeamsDao {
 
     public void setRepo(String repo, int id){
         jdbcTemplate.update("UPDATE teams SET repo = ? WHERE id = ?", repo, id);
+    }
+
+    public String getRepo(int id){
+        return jdbcTemplate.queryForObject("SELECT repo FROM teams WHERE id=?", new Object[]{id}, String.class);
     }
 
 
@@ -98,7 +106,7 @@ public class TeamsDao {
     }
 
     public int getFirstPKofTeam(){
-        Integer j = jdbcTemplate.queryForObject("SELECT id FROM teams LIMIT 1", Integer.class);
+        Integer j = jdbcTemplate.queryForObject("SELECT id FROM teams ORDER BY 1 ASC LIMIT 1", Integer.class);
         if (j == null) return 1;
         return j;
     }

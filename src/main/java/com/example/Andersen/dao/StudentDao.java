@@ -20,11 +20,15 @@ public class StudentDao {
 
 
     public List<Student> getAllDesc(){
-        return jdbcTemplate.query("SELECT id, name, primaryscore, score FROM students WHERE status = 1 ORDER BY 3 DESC", new BeanPropertyRowMapper<>(Student.class));
+        return jdbcTemplate.query("SELECT id, name, primaryscore, score, status FROM students WHERE status = 1 ORDER BY 3 DESC", new BeanPropertyRowMapper<>(Student.class));
+    }
+
+    public List<Student> getAllActiveStudents(){
+        return jdbcTemplate.query("SELECT id, name, primaryscore, score, status FROM students WHERE status = 1", new BeanPropertyRowMapper<>(Student.class));
     }
 
     public List<Student> getAll(){
-        return jdbcTemplate.query("SELECT id, name, primaryscore, score FROM students WHERE status = 1", new BeanPropertyRowMapper<>(Student.class));
+        return jdbcTemplate.query("SELECT id, name, primaryscore, score, status FROM students", new BeanPropertyRowMapper<>(Student.class));
     }
 
     public void saveStudent(Student student){
@@ -32,6 +36,13 @@ public class StudentDao {
                 student.getScore(), 1);
     }
 
+    public void deactivateOrActivateStudent(int id, int status){
+        jdbcTemplate.update("UPDATE students SET status=? WHERE id=?",status, id);
+    }
+
+    public int getLastPK(){
+        return jdbcTemplate.queryForObject("SELECT MAX(id) FROM students", Integer.class);
+    }
 
     public void saveList(ArrayList<Student> students) {
 
@@ -41,7 +52,7 @@ public class StudentDao {
                 Student student = students.get(i);
                 ps.setString(1, student.getName());
                 ps.setInt(2,student.getPrimaryScore());
-                ps.setInt(3, student.getScore());
+                ps.setDouble(3, student.getScore());
                 ps.setInt(4, 1);
             }
 

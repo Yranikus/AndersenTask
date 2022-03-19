@@ -36,4 +36,7 @@ public class StudentWithMarks extends Student{
     public void setMarksForLesson(MarksForLesson marksForLesson) {
         this.marksForLesson = marksForLesson;
     }
+
+
+
 }

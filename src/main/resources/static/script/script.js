@@ -1,7 +1,7 @@
 
-const getURL = "http://localhost:8083/getlistofstudents",           //URL для первого get
-    postURL = "http://localhost:8083/updateVisits",          //URL для POST
-    pastURL = "http://localhost:8083/getpresentstudents";         //URL для контроллера с датой
+const getURL = "http://localhost:8081/getactivelistofstudents",           //URL для первого get
+    postURL = "http://localhost:8081/updateVisits",          //URL для POST
+    pastURL = "http://localhost:8081/getpresentstudents";         //URL для контроллера с датой
 
 
 const tableBody = document.querySelector('.bodyContainer'),
@@ -49,7 +49,6 @@ const getTableContent = (getURL, table, body = null) => {
     });
 };
 
-getTableContent(getURL, tableBody);
 
 
 //EventListener а весь документ, чтобы отлавливая нажатие по кнопкам изменять список присутствующих
@@ -134,7 +133,7 @@ sendBtn.addEventListener('click', async () => {
                 console.log(data);
                 alert("Данные ушли");
             })
-        location.replace("quiz");
+        location.replace("teams");
     }
 
 })

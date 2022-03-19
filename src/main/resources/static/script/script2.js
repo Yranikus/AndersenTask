@@ -1,6 +1,6 @@
 
-const getURL = "http://localhost:8083/teams",           //URL для первого get
-    postURL = "http://localhost:8083/updateMarks"          //URL для POST
+const getURL = "http://localhost:8081/getteams",           //URL для первого get
+    postURL = "http://localhost:8081/updateMarks"          //URL для POST
 
 
 const tableBody = document.querySelector('.bodyContainer'),
@@ -8,8 +8,18 @@ const tableBody = document.querySelector('.bodyContainer'),
 let buttons,
     students = [];
 let maxNumber = 0;
-var numbers = [];
-let counter = 1;
+let teamCounter = -1;
+let arrayList = [];
+
+let ansTeamNumber,
+    k = 0,
+    size = 0,
+    second = 0,
+    answerer,
+    askTeamNumber = 0,
+    asker,
+    firstAsker;
+
 
 let thead = document.createElement('thead');
 
@@ -30,6 +40,8 @@ const getTableContent = (getURL) => {
         .then(res => {
             students.splice(0,students.length)
             res.forEach(item => {
+                teamCounter++;
+                arrayList.push([]);
                 let table = document.createElement('table'),
                 commandNumber = document.createElement('div')
                 tableBody.insertAdjacentElement('beforeend', table);
@@ -53,6 +65,7 @@ const getTableContent = (getURL) => {
                         kek.forEach(seconditem =>{
                             maxNumber++;
                             counter++;
+                            arrayList[teamCounter].push(counter);
                         table.insertAdjacentHTML("beforeend",
                     `<tr class="studentRow">
                         <td class="row">${seconditem.id}</td>
@@ -60,38 +73,63 @@ const getTableContent = (getURL) => {
                         <td>${seconditem.name}</td>
                         <td>${seconditem.primaryScore}</th>
                         <td>${seconditem.score}</th>
-                        <td class="minWidth">
-                            <button class="BBB FFF ${seconditem.marksForLesson.answer === 1 ? 'greenClass' : 'redClass'}" id="${seconditem.id}">
-                            </button>
+                        <td class="minWidth">                        
+                            <input type="text" class="ans id${seconditem.id}" style="width: 50%" value="${seconditem.marksForLesson.answer}" id="${seconditem.id}">  
                         </td>
                         <td class="minWidth">
-                            <button class="BBB AAA ${seconditem.marksForLesson.question === 1 ? 'greenClass' : 'redClass'}" id="${seconditem.id}">
-                            </button>
+                            <input type="text" class="que id${seconditem.id}" style="width: 50%" value="${seconditem.marksForLesson.question}" id="${seconditem.id}">                                         
                         </td>
                     </tr>`);
                     });
             })
         }).then(() => {
+            askTeamNumber = random(arrayList.length);
+            students.forEach(item => {
+                size = size + item.length;
+            })
+            while (arrayList[askTeamNumber].length === 1 && size !== arrayList[askTeamNumber].length) {
+                askTeamNumber = random(arrayList.length);
+            }
+            ansTeamNumber = random(arrayList.length);
+            console.log(askTeamNumber)
+            asker = random(arrayList[askTeamNumber].length);
+            console.log(asker)
+            console.log(arrayList)
+            firstAsker = arrayList[askTeamNumber][asker];
         buttons = document.querySelectorAll('.BBB');
     });
 };
 
 // getTableContent(getURL);
 
-function generator(Numbers) {
-    let c = Math.floor(Math.random() * maxNumber) + 1;
-    while (numbers.indexOf(c) != -1) {
-        c = Math.floor(Math.random() * maxNumber) + 1;
-    }
-    numbers.push(c);
-    return c;
-}
-
 const knopka = document.querySelector(".knopka");
-const answerer = document.querySelector(".answerer");
-const asker = document.querySelector(".asker")
+const answererDiv = document.querySelector(".answerer");
+const askerDiv = document.querySelector(".asker")
 
 let s = 0;
+
+const tr = (listListov) => {
+    let t = 0;
+    listListov.forEach(item => {
+        if(item.length){
+            t++
+        }
+    })
+    return t
+}
+
+const random = (max) => {
+    return Math.trunc (Math.random() * max);
+}
+
+
+function setMarks(){
+    students.forEach(item => {
+        item.marksForLesson.answer = document.querySelector(`.ans.id${item.id}`).value;
+        item.marksForLesson.question = document.querySelector(`.que.id${item.id}`).value;
+    })
+}
+
 
 knopka.addEventListener('click', (e) => {
     if(dateInput.value === '') {
@@ -104,99 +142,88 @@ knopka.addEventListener('click', (e) => {
         }, 800)
     }
     else {
-        if (counter <= maxNumber) {
-            if (s === 0) {
-                asker.innerHTML = generator(maxNumber);
-                answerer.innerHTML = generator(maxNumber);
-                counter++;
-                counter++;
-                s = 1;
-            } else {
-                asker.innerHTML = answerer.innerHTML;
-                answerer.innerHTML = generator(maxNumber);
-                counter++;
+        if(tr(arrayList) > 1) {
+            console.log(arrayList[1].length)
+            while (askTeamNumber === ansTeamNumber || arrayList[ansTeamNumber].length === 0) {
+                ansTeamNumber = random(arrayList.length)
             }
-        } else {
-            asker.innerHTML = answerer.innerHTML;
-            answerer.innerHTML = numbers[0];
+            answerer = random(arrayList[ansTeamNumber].length)
+            console.log('Спрашивает' + arrayList[askTeamNumber][asker])
+            console.log('Отвечает' + arrayList[ansTeamNumber][answerer])
+            askerDiv.innerHTML = arrayList[askTeamNumber][asker]
+            answererDiv.innerHTML = arrayList[ansTeamNumber][answerer]
+            if (arrayList[ansTeamNumber][answerer] === firstAsker && k > 0){
+                arrayList[ansTeamNumber].splice(answerer, 1)
+                answerer--;
+                if (tr(arrayList) === 0 || tr(arrayList) === 1) {
+                    return;
+                }
+                if (arrayList[ansTeamNumber].length === 0){
+                    while (arrayList[ansTeamNumber].length === 0 || askTeamNumber === ansTeamNumber){
+                        ansTeamNumber = random(arrayList.length);
+                        console.log(1000-7);
+                    }
+                }
+                if (answerer < 0) {
+                    answerer = random(arrayList[ansTeamNumber].length);
+                }
+                answerer = random(arrayList[ansTeamNumber].length);
+                second = arrayList[ansTeamNumber][answerer];
+            }
+            if (k !== 0) {
+                arrayList[askTeamNumber].splice(asker, 1)
+            }
+            k++;
+            asker = answerer
+            askTeamNumber = ansTeamNumber
+            return;
+        }
+        if(arrayList[askTeamNumber].length > 1) {
+            while ((answerer === asker || answerer >= arrayList[askTeamNumber].length) && arrayList[askTeamNumber].length !== 1) {
+                answerer = random(arrayList[askTeamNumber].length)
+                console.log(answerer)
+            }
+            if (arrayList[askTeamNumber][asker] !== arrayList[askTeamNumber][answerer]) {
+                console.log('Спрашивает' + arrayList[askTeamNumber][asker])
+                console.log('Отвечает' + arrayList[askTeamNumber][answerer])
+                askerDiv.innerHTML = arrayList[askTeamNumber][asker]
+                answererDiv.innerHTML = arrayList[ansTeamNumber][answerer]
+            }
+            else {
+                console.log('Спрашивает' + arrayList[askTeamNumber][asker])
+                console.log('Отвечает' + second)
+                askerDiv.innerHTML = arrayList[askTeamNumber][asker]
+                answererDiv.innerHTML = second
+            }
+            arrayList[askTeamNumber].splice(asker, 1)
+            if (answerer > 0) asker = answerer - 1;
+            else asker = answerer;
+            if (arrayList[askTeamNumber].length === 1){
+                arrayList[askTeamNumber].splice(0, 1)
+            }
+        }
+        if (arrayList[askTeamNumber].size() > 0) {
+            askerDiv.innerHTML = arrayList[askTeamNumber][0];
+            answererDiv.innerHTML = second;
         }
     }
-    console.log(numbers);
 })
 
 
 
-//EventListener а весь документ, чтобы отлавливая нажатие по кнопкам изменять список присутствующих
-
-document.addEventListener('click', (e) => {
-    if(e.target.classList.contains("FFF")){
-
-        if(e.target.classList.contains("redClass")){
-            e.target.classList.remove('redClass');
-            e.target.classList.add('greenClass');
-            changeAnswer(`${e.target.id}`, 1);
-        }
-
-        else if(e.target.classList.contains("greenClass")){
-            e.target.classList.remove('greenClass');
-            e.target.classList.add('redClass');
-            changeAnswer(`${e.target.id}`, 0);
-        }
-    }
-})
 
 
 
-document.addEventListener('click', (e) => {
-    if(e.target.classList.contains("AAA")){
-
-        if(e.target.classList.contains("redClass")){
-            e.target.classList.remove('redClass');
-            e.target.classList.add('greenClass');
-            changeQuestion(`${e.target.id}`, 1);
-            console.log(students);
-        }
-
-        else if(e.target.classList.contains("greenClass")){
-            e.target.classList.remove('greenClass');
-            e.target.classList.add('redClass');
-            changeQuestion(`${e.target.id}`, 1);
-        }
-    }
-})
-
-function changeQuestion( value, desc ) {
-    for (var i in students) {
-        if (students[i].id == value) {
-            students[i].marksForLesson.question = desc;
-            break; //Stop this loop, we found it!
-        }
-    }
-}
-
-function changeAnswer( value, desc ) {
-    for (var i in students) {
-        if (students[i].id == value) {
-            students[i].marksForLesson.answer = desc;
-            break; //Stop this loop, we found it!
-        }
-    }
-}
-
-//Обработчик изменнения даты, чтобы просмотреть и добавить тех, кто не был отмечен раньше
-//
-//
-//
-//
-//
 dateInput.addEventListener('input', () => {
     tableBody.innerHTML = "";
     students.length = 0;
     console.log(dateInput.value);
-                                 //  |
                                   // \/
     getTableContent(getURL + `?date=${dateInput.value}`);
 })
+
+
+
 
 //
 //
@@ -239,6 +266,8 @@ sendBtn.addEventListener('click', async () => {
             date: dateInput.value,
             studentsWithMarks: students
         }
+        setMarks();
+        console.log(students);
         await postData(postURL, JSON.stringify(kek))
             .then(data => {
                 console.log(data);

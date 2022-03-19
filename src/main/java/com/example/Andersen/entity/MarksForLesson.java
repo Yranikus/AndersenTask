@@ -1,9 +1,10 @@
 package com.example.Andersen.entity;
 
+
 public class MarksForLesson {
 
-    private int answer;
-    private int question;
+    private Double answer;
+    private Double question;
 
 
     @Override
@@ -14,7 +15,7 @@ public class MarksForLesson {
                 '}';
     }
 
-    public MarksForLesson(int answer, int question) {
+    public MarksForLesson(Double answer, Double question) {
         this.answer = answer;
         this.question = question;
     }
@@ -22,19 +23,19 @@ public class MarksForLesson {
     public MarksForLesson() {
     }
 
-    public int getAnswer() {
+    public Double getAnswer() {
         return answer;
     }
 
-    public void setAnswer(int answer) {
+    public void setAnswer(Double answer) {
         this.answer = answer;
     }
 
-    public int getQuestion() {
+    public Double getQuestion() {
         return question;
     }
 
-    public void setQuestion(int question) {
+    public void setQuestion(Double question) {
         this.question = question;
     }
 }

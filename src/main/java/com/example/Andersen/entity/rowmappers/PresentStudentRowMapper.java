@@ -1,5 +1,6 @@
-package com.example.Andersen.entity;
+package com.example.Andersen.entity.rowmappers;
 
+import com.example.Andersen.entity.Student;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

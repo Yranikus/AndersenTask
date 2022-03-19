@@ -7,6 +7,16 @@ public class Teams {
     private int numberOfTeam;
     private ArrayList students;
     private String leader;
+    private String repo;
+
+
+    public String getRepo() {
+        return repo;
+    }
+
+    public void setRepo(String repo) {
+        this.repo = repo;
+    }
 
     public Teams() {
     }

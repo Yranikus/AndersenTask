@@ -2,13 +2,11 @@ package com.example.Andersen.parser;
 
 import com.example.Andersen.entity.Student;
 import com.example.Andersen.entity.Teams;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ public class ExcelParser {
         ArrayList<Student> students = new ArrayList<>();
         Workbook book =  WorkbookFactory.create(inputStream);
         Sheet sheet = book.getSheetAt(0);
-        int rowIndex = 1;
+        int rowIndex = 0;
         while (sheet.getRow(rowIndex) != null){
             Student student = new Student(sheet.getRow(rowIndex).getCell(0).getStringCellValue(),
                     (int) sheet.getRow(rowIndex).getCell(1).getNumericCellValue(), 0);
@@ -44,8 +42,6 @@ public class ExcelParser {
             indexOfTeam++;
             cellIndex = cellIndex + 3;
         }
-
-        System.out.println("dfhjftujyt");
         cellIndex = 0;
         rowIndex++;
         indexOfTeam = 0;
@@ -59,6 +55,7 @@ public class ExcelParser {
                             System.out.println("puk");
                             teams.get(indexOfTeam).setLeader(student.getName());
                         }
+                        teams.get(indexOfTeam).setRepo("repo");
                     }
                     indexOfTeam++;
                     cellIndex = cellIndex + 3;

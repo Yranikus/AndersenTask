@@ -1,7 +1,7 @@
 package com.example.Andersen.dao;
 
 import com.example.Andersen.entity.DateEntity;
-import com.example.Andersen.entity.PresentStudentRowMapper;
+import com.example.Andersen.entity.rowmappers.PresentStudentRowMapper;
 import com.example.Andersen.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -35,7 +35,7 @@ public class VisitsDao {
     }
 
     public List<Student> getPresentStudents(Date date){
-       return jdbcTemplate.query("SELECT students.id, name, primaryscore, score, user_dates.date_id FROM students LEFT JOIN user_dates ON id = user_dates.user_id LEFT JOIN dates d on d.id = user_dates.date_id",
+       return jdbcTemplate.query("SELECT students.id, name, primaryscore, score, user_dates.date_id FROM students RIGHT JOIN user_dates ON id = user_dates.user_id LEFT JOIN dates d on d.id = user_dates.date_id WHERE status=1",
                new PresentStudentRowMapper());
     }
 

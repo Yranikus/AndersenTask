@@ -29,6 +29,15 @@ public class StudentService {
         teamsDao.saveTeams(excelParser.parseListOfTeams(inputStream));
     };
 
+    public void updateStatus(int id, int status){
+        studentDao.deactivateOrActivateStudent(id, status);
+    }
+
+    public void addStudent(String name, int primaryscore, int teamId){
+        studentDao.saveStudent(new Student(name,primaryscore, 0));
+        teamsDao.addToTeam(studentDao.getLastPK(), teamId);
+    }
+
 
     public void createTeams(){
         List<Student> students = studentDao.getAllDesc();

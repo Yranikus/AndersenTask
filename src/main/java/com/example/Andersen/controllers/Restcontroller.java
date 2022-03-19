@@ -6,15 +6,12 @@ import com.example.Andersen.dao.StudentDao;
 import com.example.Andersen.dao.TeamsDao;
 import com.example.Andersen.dao.VisitsDao;
 import com.example.Andersen.entity.*;
-import com.example.Andersen.parser.ExcelParser;
 import com.example.Andersen.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -23,11 +20,6 @@ import java.util.List;
 public class Restcontroller {
 
 
-
-    @Autowired
-    private ExcelParser excelParser;
-    @Autowired
-    private StudentService studentService;
     @Autowired
     private VisitsDao visitsDao;
     @Autowired
@@ -44,7 +36,7 @@ public class Restcontroller {
         if (visitsDao.dateExist(date) != null){
             return visitsDao.getPresentStudents(date);
         }
-        return studentDao.getAll();
+        return studentDao.getAllActiveStudents();
     }
 
     @GetMapping("/getlistofstudents")
@@ -52,6 +44,15 @@ public class Restcontroller {
         return studentDao.getAll();
     }
 
+    @GetMapping("/getactivelistofstudents")
+    public List<Student> getActiveStudents(){
+        return studentDao.getAllActiveStudents();
+    }
+
+    @PostMapping("/setrepo")
+    public void setRepo(@RequestParam int id, @RequestParam String repo){
+        teamsDao.setRepo(repo, id);
+    }
 
 
     @PostMapping("/updateVisits")
@@ -69,11 +70,12 @@ public class Restcontroller {
     @PostMapping("/updateMarks")
     public void updateMarks(@RequestBody PresentStudentsWithMarks s){
         DateEntity dateEntity = visitsDao.dateExist(s.getDate());
+        System.out.println(s.toString());
         marksDaoDao.createNewDateInJournal(dateEntity.getDate(),s.getStudentsWithMarks());
     }
 
 
-    @GetMapping("/teams")
+    @GetMapping("/getteams")
     public List<Teams> getTeams(@RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date){
         return teamsDao.getTeams(date);
     }

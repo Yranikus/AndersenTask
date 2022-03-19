@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Table</title>
+    <link href='https://fonts.googleapis.com/css?family=Rock+Salt' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/index.css" type="text/css">
+</head>
+<body>
+
+<div class="buttonWrapper">
+    <a class="sendBtn" href="/visits">Перейти к</br>посещаемости</a>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th scope="col" class="row">PK</th>
+        <th scope="col">ФИО ученика</th>
+        <th scope="col" class="minWidth">Статус</th>
+    </tr>
+    </thead>
+    <tbody class="bodyContainer">
+    </tbody>
+
+</table>
+
+<div class="add">
+    Добавить нового студента
+    <form action="/addStudent" method="post">
+        <label for="name">Имя</label><br>
+        <input type="text" name="name" id="name"><br>
+        <label for="primaryscore">Первичные бааллы</label><br>
+        <input type="text" name="primaryscore" id="primaryscore"><br>
+        <label for="numberofteam">Номер команды</label><br>
+        <input type="text" name="numberofteam" id="numberofteam"><br>
+        <input type="submit">
+    </form>
+</div>
+
+
+<script src="script/status.js"></script>
+</body>
+</html>

@@ -5,8 +5,17 @@ public class Student {
     private int id;
     private String name;
     private int primaryScore;
-    private int score;
+    private double score;
     private int check;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public int getCheck() {
         return check;
@@ -19,7 +28,7 @@ public class Student {
     public Student() {
     }
 
-    public Student(int id, String name, int primaryScore, int score) {
+    public Student(int id, String name, int primaryScore, double score) {
         this.id = id;
         this.name = name;
         this.primaryScore = primaryScore;
@@ -28,7 +37,7 @@ public class Student {
     }
 
 
-    public Student(String name, int primaryScore, int score) {
+    public Student(String name, int primaryScore, double score) {
         this.name = name;
         this.primaryScore = primaryScore;
         this.score = score;
@@ -59,11 +68,11 @@ public class Student {
         this.primaryScore = primaryScore;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 

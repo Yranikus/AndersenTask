@@ -40,4 +40,12 @@ public class PresentStudentsWithMarks {
     public void setStudentsWithMarks(ArrayList<StudentWithMarks> studentsWithMarks) {
         this.studentsWithMarks = studentsWithMarks;
     }
+
+    @Override
+    public String toString() {
+        return "PresentStudentsWithMarks{" +
+                "date=" + date +
+                ", studentsWithMarks=" + studentsWithMarks +
+                '}';
+    }
 }

@@ -1,5 +1,7 @@
-package com.example.Andersen.entity;
+package com.example.Andersen.entity.rowmappers;
 
+import com.example.Andersen.entity.MarksForLesson;
+import com.example.Andersen.entity.StudentWithMarks;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -11,8 +13,8 @@ public class StudentWithMarksRowMapper implements RowMapper {
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
         StudentWithMarks student = new StudentWithMarks();
         MarksForLesson marksForLesson = new MarksForLesson();
-        marksForLesson.setAnswer(rs.getInt("answer"));
-        marksForLesson.setQuestion(rs.getInt("question"));
+        marksForLesson.setAnswer(rs.getDouble("answer"));
+        marksForLesson.setQuestion(rs.getDouble("question"));
         int i = rs.getInt("date_id");
         if (i != 0 ) student.setCheck(1);
         student.setId(rs.getInt("id"));

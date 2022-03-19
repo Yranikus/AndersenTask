@@ -2,9 +2,7 @@ package com.example.Andersen.dao;
 
 
 import com.example.Andersen.entity.DateEntity;
-import com.example.Andersen.entity.PresentStudentsWithMarks;
 import com.example.Andersen.entity.StudentWithMarks;
-import com.example.Andersen.entity.Teams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 @Component
 public class MarksDao {
@@ -32,8 +30,8 @@ public class MarksDao {
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 StudentWithMarks student = s.get(i);
                 System.out.println(student);
-                ps.setInt(1, student.getMarksForLesson().getAnswer());
-                ps.setInt(2, student.getMarksForLesson().getQuestion());
+                ps.setDouble(1, student.getMarksForLesson().getAnswer());
+                ps.setDouble(2, student.getMarksForLesson().getQuestion());
                 ps.setInt(3, student.getId());
                 ps.setInt(4, dateEntity.getId());
                 jdbcTemplate.update("UPDATE students SET score = (SELECT score FROM students WHERE id = ?) + ? WHERE ID = ?", student.getId(),
